@@ -15,8 +15,8 @@ namespace TGP.Utilities {
 		/// Adds an Item to the pool and deactivates it.
 		/// </summary>
 		/// <param name="item">the item to add to the pool</param>
-		public override void AddItem(GameObject item) {
-			base.AddItem(item);
+		public override void ReturnItem(GameObject item) {
+			base.ReturnItem(item);
 			item.transform.SetParent(poolObj.transform);
 			item.gameObject.SetActive(false);
 			}
@@ -40,7 +40,7 @@ namespace TGP.Utilities {
 			if (activeObj.Count == 0)
 				return;
 			foreach(GameObject item in activeObj) {
-				AddItem(item);
+				ReturnItem(item);
 				}
 			activeObj.Clear();
 			}

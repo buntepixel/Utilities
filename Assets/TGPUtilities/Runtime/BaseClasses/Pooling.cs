@@ -10,8 +10,13 @@ using System.Xml.Serialization;
 namespace TGP.Utilities {
 	public interface IPooling<T> where T : UnityEngine.Object {
 		T GetItem(Transform parent);
-		void AddItem(T item);
-		void AddItems(IEnumerable<T> items);
+		void ReturnItem(T item);
+		void ReturnItems(IEnumerable<T> items);
+	}
+	public interface IPoolingData<T,D> where T : UnityEngine.Object {
+		T GetItem(Transform parent,D data);
+		void ReturnItem(T item);
+		void ReturnItems(IEnumerable<T> items);
 	}
 
 	public abstract class BasePool<T> :IDisposable,IPooling<T> where T : UnityEngine.Object {
@@ -56,14 +61,14 @@ namespace TGP.Utilities {
 			return item;
 		}
 
-		public virtual void AddItem(T item) {
+		public virtual void ReturnItem(T item) {
 			if (item == null)
 				return;
 			pool.Add(item);
 		}
-		public virtual void AddItems(IEnumerable<T> items) {
+		public virtual void ReturnItems(IEnumerable<T> items) {
 			foreach(T item in items) {
-				AddItem(item);
+				ReturnItem(item);
 			}
 		}
 		public Transform GetPoolRoot() {
