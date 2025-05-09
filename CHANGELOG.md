@@ -1,4 +1,4 @@
-# Hextant Utilities - Change Log
+# TGP Utilities - Change Log
 
 ## [Unreleased]
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.Linq;
 using TGP.Utilities;
 
-namespace TGP.Utilities.Ui{
+namespace TGP.Utilities.Ui {
 
 
 	public class TouchManager : BaseMonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler, IPointerUpHandler {
@@ -21,20 +21,21 @@ namespace TGP.Utilities.Ui{
 			right,
 			left,
 			undefined
-			}
+		}
 		[SerializeField]
 		[Range(1, 50)]
 		internal int BorderWidthPerc = 10;
-	
+
 		int queueSize = 4;
 		Queue<Vector2> dragPosStack;
 		TouchManagerEventData touchManagerEventData;
 
 		bool isClick;
 		float pointerDown;
-		private void Awake() {
+		protected override void Awake() {
+			base.Awake();
 			dragPosStack = new Queue<Vector2>();
-			}
+		}
 
 		public void OnPointerDown(PointerEventData eventData) {
 			if (debug)
@@ -42,7 +43,7 @@ namespace TGP.Utilities.Ui{
 			touchManagerEventData = new TouchManagerEventData(this, 0);
 			pointerDown = Time.realtimeSinceStartup;
 			isClick = true;
-			}
+		}
 
 
 		public void OnBeginDrag(PointerEventData eventData) {
@@ -50,12 +51,12 @@ namespace TGP.Utilities.Ui{
 				Debug.LogFormat($"TochManager:---OnBeginDrag {eventData.pointerCurrentRaycast.gameObject.name}");
 			isClick = false;
 			On_BeginDragDir?.Invoke(GetDirectionStart(eventData.position), eventData);
-			}
+		}
 
 		public void OnDrag(PointerEventData eventData) {
 			AddToQueue(eventData.delta);
 			On_DragDir?.Invoke(GetDirection(GetAvgDelta()), eventData);
-			}
+		}
 
 		public void OnEndDrag(PointerEventData eventData) {
 			if (debug)
@@ -63,7 +64,7 @@ namespace TGP.Utilities.Ui{
 
 			On_EndDragDir?.Invoke(GetDirection(GetAvgDelta()), eventData);
 			dragPosStack.Clear();
-			}
+		}
 
 		public void OnPointerUp(PointerEventData eventData) {
 			if (eventData.pointerCurrentRaycast.gameObject == null)
@@ -75,22 +76,22 @@ namespace TGP.Utilities.Ui{
 					Debug.LogFormat($"TochManager:---OnPointerUp WasClick");
 				touchManagerEventData.ClickTime = Time.realtimeSinceStartup - pointerDown;
 				On_Click?.Invoke(touchManagerEventData, eventData);
-				}
 			}
+		}
 		public void AddToQueue(Vector2 item) {
 			dragPosStack.Enqueue(item);
 			if (dragPosStack.Count > queueSize)
 				dragPosStack.Dequeue();
-			}
+		}
 		public Vector2 GetAvgDelta() {
 			Vector2[] tmp = new Vector2[dragPosStack.Count];
 			Vector2 sum = Vector2.zero;
 			dragPosStack.CopyTo(tmp, 0);
 			for (int i = 0; i < tmp.Length; i++) {
 				sum += tmp[i];
-				}
-			return sum / tmp.Length;
 			}
+			return sum / tmp.Length;
+		}
 
 		TouchManagerEventData GetDirection(Vector2 oldPos, Vector2 newPos) {
 			TouchDirection dir = TouchDirection.undefined;
@@ -107,28 +108,27 @@ namespace TGP.Utilities.Ui{
 					dir = TouchDirection.right;
 				else
 					dir = TouchDirection.down;
-				}
+			}
 
 			if (touchManagerEventData == null) {
 				touchManagerEventData = new TouchManagerEventData(this, signedAngle, dir);
-				}
-			else {
+			} else {
 				touchManagerEventData.SignedAngle = signedAngle;
 				touchManagerEventData.TouchManager = this;
 				touchManagerEventData.Direction = dir;
-				}
+			}
 			return touchManagerEventData;
 			// Debug.LogFormat( $"Touchmanager: dir: { dir}  signedAngle: {signedAngle}");
 
-			}
+		}
 		TouchManagerEventData GetDirection(Vector2 delta) {
 			return GetDirection(Vector2.zero, delta);
-			}
+		}
 		TouchManagerEventData GetDirectionStart(Vector2 startpos) {
 			TouchManagerEventData eventData = GetDirection(startpos, startpos);
 			eventData.isBorderStart = isBoderStart(startpos);
 			return eventData;
-			}
+		}
 		//todo: maybe alternate for top bottom values to consider top&footer menue
 		bool isBoderStart(Vector2 pos) {
 			//float perc = 50;
@@ -141,22 +141,22 @@ namespace TGP.Utilities.Ui{
 			if (debug)
 				Debug.LogFormat($"isBorderStart::: inPos: {pos} Screendim: {Screen.currentResolution} border: {border} retval: {retVal}");
 			return retVal;
-			}
-
-
 		}
 
+
+	}
+
 	public class TouchManagerEventData {
-		public TouchManagerEventData(TouchManager touchManager,float signedAngle, TouchManager.TouchDirection dir) {
+		public TouchManagerEventData(TouchManager touchManager, float signedAngle, TouchManager.TouchDirection dir) {
 			this.SignedAngle = signedAngle;
 			this.Direction = dir;
 			ClickTime = 0;
-			}
+		}
 		public TouchManagerEventData(TouchManager touchManager, float clickTime) {
 			this.ClickTime = clickTime;
 			this.SignedAngle = 0;
 			this.Direction = TouchManager.TouchDirection.undefined;
-			}
+		}
 		public TouchManager.TouchDirection Direction { get; set; }
 		public TouchManager TouchManager;
 		public float SignedAngle { get; set; }
@@ -164,7 +164,7 @@ namespace TGP.Utilities.Ui{
 		public bool isValidSwipe { get; set; }
 		public bool isBorderStart { get; set; }
 
-		}
 	}
+}
 
 

@@ -10,7 +10,7 @@ namespace TGP.Tests {
 
 		}
 		public void OpenWithConfirmN0Button() {
-			DialogueWindowInfo.OnOpenDialogueWindow(this, new DialogueWindowInfoEventArgs("info", "WithConfirm", true, string.Empty));
+			DialogueWindowInfo.OnOpenDialogueWindow(this, new DialogueWindowInfoEventArgs("info", "WithConfirm", true,5, string.Empty));
 		}
 		public void OpenAutoClose() {
 			DialogueWindowInfo.OnOpenDialogueWindow(this, new DialogueWindowInfoEventArgs("info", "AutoHide"));

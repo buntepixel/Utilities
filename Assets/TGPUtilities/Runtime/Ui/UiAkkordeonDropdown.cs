@@ -149,7 +149,7 @@ namespace TGP.Utilities.Ui {
 			}
 		public void Hide() {
 			foreach (GameObject gameObject in m_MenuItems) {
-				m_menuElemPool.AddItem(gameObject);
+				m_menuElemPool.ReturnItem(gameObject);
 				}
 			m_SelectionBar.gameObject.SetActive(false);
 			Arrow.localRotation = Quaternion.identity;
