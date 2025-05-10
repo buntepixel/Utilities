@@ -1,10 +1,10 @@
 # Utilities
 
-git@gitlab.com:tgp492350/stateframework.git?path=/Assets/TGPUtilities
+git@gitlab.com:tgp492350/utilities.git?path=/Assets/TGPUtilities
 
 or
 
-https://gitlab.com/tgp492350/stateframework.git?path=/Assets/TGPUtilities
+https://gitlab.com/tgp492350/utilities.git?path=/Assets/TGPUtilities
 
 
 
