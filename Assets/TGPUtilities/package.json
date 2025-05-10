@@ -1,9 +1,9 @@
 {
   "name": "com.thegoodplace.utilities",
   "displayName": "TGPUtilities",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "unity": "2020.2",
-  "description": "Depends on DG.Dotween \nhttp://www.demigiant.com/",
+  "description": "Helpful scripts,Depends on DG.Dotween \nhttp://www.demigiant.com/",
   "dependencies": {
     "com.unity.textmeshpro": "3.0.6"
   },
